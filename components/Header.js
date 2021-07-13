@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import colors from '../constants/colors';
+import { TitleText } from './TitleText';
 
 export const Header = ({title}) => {
     return (
         <View style={styles.header}>
-            <Text style={styles.headerTitle}>{title}</Text>
+            <TitleText style={styles.headerTitle}>{title}</TitleText>
         </View>
 
     )

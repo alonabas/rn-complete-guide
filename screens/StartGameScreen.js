@@ -4,8 +4,10 @@ import {Card} from '../components/Card';
 import colors from '../constants/colors';
 import {Input} from '../components/Input';
 import { NumberContainer } from '../components/NumberContainer';
+import { BodyText } from '../components/BodyText';
+import { TitleText } from '../components/TitleText';
 
-export const StartGameScreen = ({}) => {
+export const StartGameScreen = ({startGameHandler}) => {
     const [enteredValue, setEnteredValue] = React.useState();
     const [confirmed, setConfirmed] = React.useState(false);
     const [selectedNumber, setSelectedNumber] = React.useState();
@@ -31,18 +33,20 @@ export const StartGameScreen = ({}) => {
         setConfirmed(true);
         setEnteredValue('');
         setSelectedNumber(chosenNumber);
+        
         Keyboard.dismiss();
     }
 
+    const onStartGame = () => startGameHandler(selectedNumber);
     let confirmedOutput;
     if (confirmed) {
         confirmedOutput = (
             <Card style={styles.summaryContainer}>
-                <Text>You selected</Text>
+                <BodyText>You selected</BodyText>
                 <NumberContainer>
                     {selectedNumber}
                 </NumberContainer>    
-                <Button title='START GAME'/>
+                <Button title='START GAME' onPress={onStartGame}/>
             </Card>
            
         )
@@ -51,9 +55,9 @@ export const StartGameScreen = ({}) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.screen}>
-                <Text style={styles.title}> Start a new game </Text>
+                <TitleText style={styles.title}> Start a new game </TitleText>
                 <Card style={styles.inputContainer}>
-                    <Text >Select a number</Text>
+                    <BodyText >Select a number</BodyText>
                     <Input style={styles.input} 
                         blurOnSubmit 
                         autoCapitalize='none' 
@@ -105,7 +109,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        marginVertical: 10
+        marginVertical: 10,
     },
     input: {
         width: 50,

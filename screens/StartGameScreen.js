@@ -6,6 +6,7 @@ import {Input} from '../components/Input';
 import { NumberContainer } from '../components/NumberContainer';
 import { BodyText } from '../components/BodyText';
 import { TitleText } from '../components/TitleText';
+import { MainButton } from '../components/MainButton';
 
 export const StartGameScreen = ({startGameHandler}) => {
     const [enteredValue, setEnteredValue] = React.useState();
@@ -46,7 +47,7 @@ export const StartGameScreen = ({startGameHandler}) => {
                 <NumberContainer>
                     {selectedNumber}
                 </NumberContainer>    
-                <Button title='START GAME' onPress={onStartGame}/>
+                <MainButton onPress={onStartGame}>START GAME</MainButton>
             </Card>
            
         )

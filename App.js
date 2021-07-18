@@ -43,6 +43,7 @@ export default function App() {
   const restartGameHandler = () => {
     setGameOver(false);
     setGuessRounds(0);
+    setSelectedNumber(null);
   }
 
   let content = (

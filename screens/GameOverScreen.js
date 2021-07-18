@@ -4,6 +4,8 @@ import { Card } from '../components/Card';
 import { NumberContainer } from '../components/NumberContainer';
 import {BodyText} from '../components/BodyText';
 import { TitleText } from '../components/TitleText';
+import Colors from '../constants/colors';
+import { MainButton } from '../components/MainButton';
 
 export const GameOverScreen = ({restartGameHandler, rounds, userChoice}) => {
     return (
@@ -16,9 +18,15 @@ export const GameOverScreen = ({restartGameHandler, rounds, userChoice}) => {
                    resizeMode='cover'
                    style={styles.image}/>
             </View>
-            <BodyText>Number of rounds: {rounds}</BodyText>
-            <BodyText>Number was: {userChoice}</BodyText>
-            <Button title={'NEW GAME'} onPress={restartGameHandler}/>
+            {/* For text components styles are passed to nested text components */}
+            <View style={styles.resultContainer}>
+                <BodyText style={styles.resultText}>
+                    Your phone needed <Text style={styles.highlight}>{rounds}</Text> round to guess 
+                    the number <Text style={styles.highlight}>{userChoice}</Text>
+                </BodyText>
+            </View>
+            
+            <MainButton onPress={restartGameHandler}>NEW GAME</MainButton>
         </View>
     )
 }
@@ -28,7 +36,8 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        fontFamily: 'open-sans'
     },
     image: {
         width: '100%',
@@ -42,5 +51,16 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: 'black',
         marginVertical: 20
+    },
+    highlight: {
+        color: Colors.primary,
+    },
+    resultContainer: {
+        marginHorizontal: 30,
+        marginVertical: 15,
+    },
+    resultText: {
+        textAlign: 'center',
+        fontSize: 20
     }
 });

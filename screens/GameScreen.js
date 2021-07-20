@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, Text, Alert, ScrollView, FlatList } from 'react-native';
+import { View, StyleSheet, Text, Alert, ScrollView, FlatList, Dimensions, SafeAreaView } from 'react-native';
 import { Card } from '../components/Card';
 import { NumberContainer } from '../components/NumberContainer';
 import { BodyText } from '../components/BodyText';
 import { MainButton } from '../components/MainButton';
 import { Ionicons } from '@expo/vector-icons';
-
+import * as ScreenOrientation from "expo-screen-orientation";
+// import {ScreenOrientation} from "expo"
 const generateRandomBetween = (min, max, exclude) => {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -28,7 +29,7 @@ const renderListItem = (length, itemData) => (
 export const GameScreen = ({userChoice, gameOverHandler}) => {
     const low = React.useRef(1);
     const high = React.useRef(100);
-
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
     const initialGuess = generateRandomBetween(low.current, high.current, userChoice);
     const [pastGuesses, setPastGuesses] = React.useState([]);
     const [currentGuess, setCurrentGuess] = React.useState(initialGuess);
@@ -63,6 +64,8 @@ export const GameScreen = ({userChoice, gameOverHandler}) => {
     }
 
     return (
+        <ScrollView>
+
         <View style={styles.screen}>
             <BodyText>Opponent's guess</BodyText>
             <NumberContainer>{currentGuess}</NumberContainer>
@@ -81,6 +84,7 @@ export const GameScreen = ({userChoice, gameOverHandler}) => {
             </View>
             
         </View>
+        </ScrollView>
     )
 }
 
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
     buttonCOntainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginTop: 20,
+        marginTop: Dimensions.get('window').height > 600 ? 20 : 10,
         width: 400,
         maxWidth: '90%',
     },

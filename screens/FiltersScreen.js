@@ -4,19 +4,24 @@ import {COLORS} from '../constants/colors';
 import CustomHeaderButton from '../components/HeaderButton';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { DefaultText } from '../components/DefaultText';
-
+import { useDispatch } from 'react-redux';
+import {setFilters} from '../store/actions/meals';
 
 const CreateFilterOptions = () => {
     const [gf, setGf] = React.useState(false);
     const [lf, setLf] = React.useState(false);
     const [vegan, setVegan] = React.useState(false);
     const [vegetarian, setVegetarian] = React.useState(false);
-    const setFilters = React.useCallback(() => {
+    const dispatch = useDispatch();
+    const saveFilters = React.useCallback(() => {
         const appliedFilters = {
-            vegetarian, vegan, lf, gf
+            isVegetarian: vegetarian, 
+            isVegan: vegan, 
+            isLactoseFree: lf, 
+            isGlutenFree: gf
         }
-        console.log(appliedFilters)
-    }, [vegetarian, vegan, lf, gf])
+        dispatch(setFilters(appliedFilters));
+    }, [vegetarian, vegan, lf, gf, dispatch])
     return {options: [
         {
             text: 'Gluten-free',
@@ -42,17 +47,15 @@ const CreateFilterOptions = () => {
             key: 'vegetarian',
             onChange: () => setVegetarian(e => !e)
         }
-    ], setFilters
+    ], saveFilters
     }
 }
 
 const FiltersScreen = (props) => {
-    const {options, setFilters} = CreateFilterOptions();
+    const {options, saveFilters} = CreateFilterOptions();
     React.useEffect(() => {
-        console.log('Here')
-        // console.log(setFilters)
-        props.navigation.setParams({setFilters})
-    }, [setFilters])
+        props.navigation.setParams({setFilters: saveFilters})
+    }, [saveFilters])
     return (
         <View style={styles.screen}>
             <Text style={styles.title}>
@@ -109,7 +112,6 @@ FiltersScreen.navigationOptions =  ({navigation}) => ({
             <Item iconName={'ios-save'} 
                   color={Platform.OS === 'android' ? 'white' : COLORS.primary}
                   onPress={() =>{
-                      console.log('To Save')
                       const save = navigation.getParam('setFilters');
                       save();
                       }} style={styles.favIcon}/>
